@@ -1,0 +1,358 @@
+  [1m[35m (1257.8ms)[0m  [1m[35mCREATE DATABASE "NewSipper_development" ENCODING = 'unicode'[0m
+  [1m[35m (491.5ms)[0m  [1m[35mCREATE DATABASE "NewSipper_test" ENCODING = 'unicode'[0m
+  [1m[35mSQL (3.7ms)[0m  [1m[35mCREATE EXTENSION IF NOT EXISTS "plpgsql"[0m
+  [1m[35m (1.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "likes" CASCADE[0m
+  [1m[35m (87.4ms)[0m  [1m[35mCREATE TABLE "likes" ("id" bigserial primary key, "liker_id" integer NOT NULL, "sip_id" integer NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (3.3ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_likes_on_liker_id_and_sip_id" ON "likes" ("liker_id", "sip_id")[0m
+  [1m[35m (2.8ms)[0m  [1m[35mCREATE INDEX "index_likes_on_sip_id" ON "likes" ("sip_id")[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "locations" CASCADE[0m
+  [1m[35m (48.8ms)[0m  [1m[35mCREATE TABLE "locations" ("id" bigserial primary key, "city" character varying NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (29.2ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_locations_on_city" ON "locations" ("city")[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "sips" CASCADE[0m
+  [1m[35m (37.8ms)[0m  [1m[35mCREATE TABLE "sips" ("id" bigserial primary key, "body" text NOT NULL, "author_id" integer NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (4.9ms)[0m  [1m[35mCREATE INDEX "index_sips_on_author_id" ON "sips" ("author_id")[0m
+  [1m[35m (0.7ms)[0m  [1m[35mDROP TABLE IF EXISTS "users" CASCADE[0m
+  [1m[35m (43.0ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "username" character varying NOT NULL, "location_id" integer NOT NULL, "age" integer, "fav_language" character varying, "password_digest" character varying NOT NULL, "session_token" character varying NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (3.6ms)[0m  [1m[35mCREATE INDEX "index_users_on_location_id" ON "users" ("location_id")[0m
+  [1m[35m (3.4ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_users_on_session_token" ON "users" ("session_token")[0m
+  [1m[35m (2.4ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_users_on_username" ON "users" ("username")[0m
+  [1m[35m (7.0ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (1.9ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (7.9ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20210908025352)[0m
+  [1m[35m (8.8ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.7ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (7.9ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "development"], ["created_at", "2021-09-08 14:43:05.627388"], ["updated_at", "2021-09-08 14:43:05.627388"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.8ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.7ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (1.0ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "schema_sha1"], ["value", "3eae95704d39511fcc41ba066c3f1d74cdc40545"], ["created_at", "2021-09-08 14:43:05.679228"], ["updated_at", "2021-09-08 14:43:05.679228"]]
+  [1m[36mTRANSACTION (1.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35mSQL (0.6ms)[0m  [1m[35mCREATE EXTENSION IF NOT EXISTS "plpgsql"[0m
+  [1m[35m (17.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "likes" CASCADE[0m
+  [1m[35m (13.0ms)[0m  [1m[35mCREATE TABLE "likes" ("id" bigserial primary key, "liker_id" integer NOT NULL, "sip_id" integer NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (1.9ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_likes_on_liker_id_and_sip_id" ON "likes" ("liker_id", "sip_id")[0m
+  [1m[35m (1.8ms)[0m  [1m[35mCREATE INDEX "index_likes_on_sip_id" ON "likes" ("sip_id")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "locations" CASCADE[0m
+  [1m[35m (40.1ms)[0m  [1m[35mCREATE TABLE "locations" ("id" bigserial primary key, "city" character varying NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (8.2ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_locations_on_city" ON "locations" ("city")[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "sips" CASCADE[0m
+  [1m[35m (33.0ms)[0m  [1m[35mCREATE TABLE "sips" ("id" bigserial primary key, "body" text NOT NULL, "author_id" integer NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (2.7ms)[0m  [1m[35mCREATE INDEX "index_sips_on_author_id" ON "sips" ("author_id")[0m
+  [1m[35m (0.3ms)[0m  [1m[35mDROP TABLE IF EXISTS "users" CASCADE[0m
+  [1m[35m (34.6ms)[0m  [1m[35mCREATE TABLE "users" ("id" bigserial primary key, "username" character varying NOT NULL, "location_id" integer NOT NULL, "age" integer, "fav_language" character varying, "password_digest" character varying NOT NULL, "session_token" character varying NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (2.4ms)[0m  [1m[35mCREATE INDEX "index_users_on_location_id" ON "users" ("location_id")[0m
+  [1m[35m (2.9ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_users_on_session_token" ON "users" ("session_token")[0m
+  [1m[35m (2.8ms)[0m  [1m[35mCREATE UNIQUE INDEX "index_users_on_username" ON "users" ("username")[0m
+  [1m[35m (5.8ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (2.9ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (8.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20210908025352)[0m
+  [1m[35m (155.7ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (5.6ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (1.5ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "development"], ["created_at", "2021-09-08 14:43:06.231359"], ["updated_at", "2021-09-08 14:43:06.231359"]]
+  [1m[36mTRANSACTION (3.2ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (5.7ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (3.8ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Update (33.7ms)[0m  [1m[33mUPDATE "ar_internal_metadata" SET "value" = $1, "updated_at" = $2 WHERE "ar_internal_metadata"."key" = $3[0m  [["value", "test"], ["updated_at", "2021-09-08 14:43:06.286958"], ["key", "environment"]]
+  [1m[36mTRANSACTION (1.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (2.6ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (24.1ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "schema_sha1"], ["value", "3eae95704d39511fcc41ba066c3f1d74cdc40545"], ["created_at", "2021-09-08 14:43:06.341778"], ["updated_at", "2021-09-08 14:43:06.341778"]]
+  [1m[36mTRANSACTION (3.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (4.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[36mLike Load (2.5ms)[0m  [1m[34mSELECT "likes".* FROM "likes"[0m
+  [1m[35m (8.6ms)[0m  [1m[34mSELECT COUNT("sips"."id") AS count_sips_id, "sips"."id" AS sips_id FROM "sips" INNER JOIN "likes" ON "likes"."sip_id" = "sips"."id" GROUP BY "sips"."id"[0m
+  ↳ app/models/sip.rb:39:in `<class:Sip>'
+  [1m[35m (2.2ms)[0m  [1m[34mSELECT "sips"."body" FROM "sips" INNER JOIN "likes" ON "likes"."sip_id" = "sips"."id" GROUP BY "sips"."id" HAVING (count(*) > 3)[0m
+  ↳ app/models/sip.rb:43:in `<class:Sip>'
+  [1m[36mSip Load (0.8ms)[0m  [1m[34mSELECT "sips".* FROM "sips"[0m
+  [1m[36mUser Load (6.0ms)[0m  [1m[34mSELECT "users".* FROM "users"[0m
+  [1m[36mLocation Load (27.2ms)[0m  [1m[34mSELECT "locations".* FROM "locations"[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mLocation Exists? (1.9ms)[0m  [1m[34mSELECT 1 AS one FROM "locations" WHERE "locations"."city" = $1 LIMIT $2[0m  [["city", "New York"], ["LIMIT", 1]]
+  [1m[36mLocation Create (28.1ms)[0m  [1m[32mINSERT INTO "locations" ("city", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["city", "New York"], ["created_at", "2021-09-08 14:43:06.940773"], ["updated_at", "2021-09-08 14:43:06.940773"]]
+  [1m[36mTRANSACTION (1.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mLocation Exists? (0.9ms)[0m  [1m[34mSELECT 1 AS one FROM "locations" WHERE "locations"."city" = $1 LIMIT $2[0m  [["city", "DC"], ["LIMIT", 1]]
+  [1m[36mLocation Create (0.9ms)[0m  [1m[32mINSERT INTO "locations" ("city", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["city", "DC"], ["created_at", "2021-09-08 14:43:06.984724"], ["updated_at", "2021-09-08 14:43:06.984724"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mLocation Exists? (24.7ms)[0m  [1m[34mSELECT 1 AS one FROM "locations" WHERE "locations"."city" = $1 LIMIT $2[0m  [["city", "San Francisco"], ["LIMIT", 1]]
+  [1m[36mLocation Create (3.0ms)[0m  [1m[32mINSERT INTO "locations" ("city", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["city", "San Francisco"], ["created_at", "2021-09-08 14:43:07.022471"], ["updated_at", "2021-09-08 14:43:07.022471"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mLocation Exists? (1.2ms)[0m  [1m[34mSELECT 1 AS one FROM "locations" WHERE "locations"."city" = $1 LIMIT $2[0m  [["city", "Tupelo"], ["LIMIT", 1]]
+  [1m[36mLocation Create (0.8ms)[0m  [1m[32mINSERT INTO "locations" ("city", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["city", "Tupelo"], ["created_at", "2021-09-08 14:43:07.038640"], ["updated_at", "2021-09-08 14:43:07.038640"]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (23.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mLocation Exists? (0.7ms)[0m  [1m[34mSELECT 1 AS one FROM "locations" WHERE "locations"."city" = $1 LIMIT $2[0m  [["city", "Princeton"], ["LIMIT", 1]]
+  [1m[36mLocation Create (0.8ms)[0m  [1m[32mINSERT INTO "locations" ("city", "created_at", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["city", "Princeton"], ["created_at", "2021-09-08 14:43:07.074694"], ["updated_at", "2021-09-08 14:43:07.074694"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (16.8ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.8ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."username" = $1 LIMIT $2[0m  [["username", "awesome_person"], ["LIMIT", 1]]
+  [1m[36mUser Exists? (0.8ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "LnbvA-7yEtuaFcV7CSi-aw"], ["LIMIT", 1]]
+  [1m[36mLocation Load (0.5ms)[0m  [1m[34mSELECT "locations".* FROM "locations" WHERE "locations"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mUser Create (1.9ms)[0m  [1m[32mINSERT INTO "users" ("username", "location_id", "age", "fav_language", "password_digest", "session_token", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["username", "awesome_person"], ["location_id", 2], ["age", 9], ["fav_language", "Javascript"], ["password_digest", "$2a$12$Em4yn8P.FUPX1EZc/JMvxuDG2vZ5bJaNC5hpFhxNGep/TskQUodny"], ["session_token", "LnbvA-7yEtuaFcV7CSi-aw"], ["created_at", "2021-09-08 14:43:07.674018"], ["updated_at", "2021-09-08 14:43:07.674018"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (20.7ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."username" = $1 LIMIT $2[0m  [["username", "valerous"], ["LIMIT", 1]]
+  [1m[36mUser Exists? (0.7ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "vftfYizZc5ayhReQURnHDQ"], ["LIMIT", 1]]
+  [1m[36mLocation Load (0.5ms)[0m  [1m[34mSELECT "locations".* FROM "locations" WHERE "locations"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mUser Create (1.0ms)[0m  [1m[32mINSERT INTO "users" ("username", "location_id", "age", "fav_language", "password_digest", "session_token", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["username", "valerous"], ["location_id", 3], ["age", 1200], ["fav_language", "Ruby"], ["password_digest", "$2a$12$mlSeM73C14atr37Q78iuAOt4k9grpXnkmRPyJ5aWR5USqLgf/YJsa"], ["session_token", "vftfYizZc5ayhReQURnHDQ"], ["created_at", "2021-09-08 14:43:08.280400"], ["updated_at", "2021-09-08 14:43:08.280400"]]
+  [1m[36mTRANSACTION (4.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.9ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."username" = $1 LIMIT $2[0m  [["username", "dan_the_man"], ["LIMIT", 1]]
+  [1m[36mUser Exists? (0.9ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "AXHHWkZFzcSdmYZxzja3yQ"], ["LIMIT", 1]]
+  [1m[36mLocation Load (0.8ms)[0m  [1m[34mSELECT "locations".* FROM "locations" WHERE "locations"."id" = $1 LIMIT $2[0m  [["id", 3], ["LIMIT", 1]]
+  [1m[36mUser Create (22.3ms)[0m  [1m[32mINSERT INTO "users" ("username", "location_id", "age", "fav_language", "password_digest", "session_token", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["username", "dan_the_man"], ["location_id", 3], ["age", 5], ["fav_language", "CSS"], ["password_digest", "$2a$12$qdd8Uvg4XzXJmYWoJ1XlIuLZTDNVXG03ziu45EJO2U1yB.bAV/Ji6"], ["session_token", "AXHHWkZFzcSdmYZxzja3yQ"], ["created_at", "2021-09-08 14:43:08.946897"], ["updated_at", "2021-09-08 14:43:08.946897"]]
+  [1m[36mTRANSACTION (1.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (8.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."username" = $1 LIMIT $2[0m  [["username", "the_wizard"], ["LIMIT", 1]]
+  [1m[36mUser Exists? (1.0ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "BJGW1-IsQ-ICEGm58ZRxrA"], ["LIMIT", 1]]
+  [1m[36mLocation Load (0.7ms)[0m  [1m[34mSELECT "locations".* FROM "locations" WHERE "locations"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Create (0.8ms)[0m  [1m[32mINSERT INTO "users" ("username", "location_id", "age", "fav_language", "password_digest", "session_token", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["username", "the_wizard"], ["location_id", 1], ["age", 12], ["fav_language", "CSS"], ["password_digest", "$2a$12$H8an8F7gyyPj6BDdPV945.HtJeCNCR.4sr4mWlkJyOi0XReDhDzIy"], ["session_token", "BJGW1-IsQ-ICEGm58ZRxrA"], ["created_at", "2021-09-08 14:43:09.580918"], ["updated_at", "2021-09-08 14:43:09.580918"]]
+  [1m[36mTRANSACTION (0.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.9ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."username" = $1 LIMIT $2[0m  [["username", "juju"], ["LIMIT", 1]]
+  [1m[36mUser Exists? (25.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "Pl5n3wdOYnrdBliDU2dzDQ"], ["LIMIT", 1]]
+  [1m[36mLocation Load (0.6ms)[0m  [1m[34mSELECT "locations".* FROM "locations" WHERE "locations"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Create (0.7ms)[0m  [1m[32mINSERT INTO "users" ("username", "location_id", "age", "fav_language", "password_digest", "session_token", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["username", "juju"], ["location_id", 1], ["age", 85], ["fav_language", "HTML"], ["password_digest", "$2a$12$0roSMGXSBpRXHJl7oQctnupmYmf4c45iV5H7j5QFKyXm9Yw6Q6e5G"], ["session_token", "Pl5n3wdOYnrdBliDU2dzDQ"], ["created_at", "2021-09-08 14:43:10.126387"], ["updated_at", "2021-09-08 14:43:10.126387"]]
+  [1m[36mTRANSACTION (0.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (4.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (0.7ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."username" = $1 LIMIT $2[0m  [["username", "sammy"], ["LIMIT", 1]]
+  [1m[36mUser Exists? (0.9ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "zemtAhhc9YXtEJHHZX9t0w"], ["LIMIT", 1]]
+  [1m[36mLocation Load (0.5ms)[0m  [1m[34mSELECT "locations".* FROM "locations" WHERE "locations"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Create (0.6ms)[0m  [1m[32mINSERT INTO "users" ("username", "location_id", "age", "fav_language", "password_digest", "session_token", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["username", "sammy"], ["location_id", 1], ["age", 999], ["fav_language", "SQL"], ["password_digest", "$2a$12$ajX5R1IVS0ROR/7Z2G/gzuiKvLGGo04ICTp1.kFFmbm5U2d86ssIi"], ["session_token", "zemtAhhc9YXtEJHHZX9t0w"], ["created_at", "2021-09-08 14:43:10.680269"], ["updated_at", "2021-09-08 14:43:10.680269"]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (20.8ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (9.1ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."username" = $1 LIMIT $2[0m  [["username", "talk_to_the_hand"], ["LIMIT", 1]]
+  [1m[36mUser Exists? (1.4ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "HZbeXnS9WTNLU1sT0WrEGQ"], ["LIMIT", 1]]
+  [1m[36mLocation Load (1.5ms)[0m  [1m[34mSELECT "locations".* FROM "locations" WHERE "locations"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mUser Create (22.0ms)[0m  [1m[32mINSERT INTO "users" ("username", "location_id", "age", "fav_language", "password_digest", "session_token", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["username", "talk_to_the_hand"], ["location_id", 5], ["age", 1], ["fav_language", "Javascript"], ["password_digest", "$2a$12$yYVfaEJHNCjckSdHHHypBuKxSwcCCg6B77pq9I9uGf5Irktej7oRC"], ["session_token", "HZbeXnS9WTNLU1sT0WrEGQ"], ["created_at", "2021-09-08 14:43:11.247361"], ["updated_at", "2021-09-08 14:43:11.247361"]]
+  [1m[36mTRANSACTION (5.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (24.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (1.1ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."username" = $1 LIMIT $2[0m  [["username", "tahj_gets_buckets"], ["LIMIT", 1]]
+  [1m[36mUser Exists? (0.9ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "aXVEqcjxHgpPnoZC42EfoQ"], ["LIMIT", 1]]
+  [1m[36mLocation Load (0.5ms)[0m  [1m[34mSELECT "locations".* FROM "locations" WHERE "locations"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mUser Create (1.1ms)[0m  [1m[32mINSERT INTO "users" ("username", "location_id", "age", "fav_language", "password_digest", "session_token", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["username", "tahj_gets_buckets"], ["location_id", 4], ["age", 65], ["fav_language", "Ruby"], ["password_digest", "$2a$12$yYpKC3LQQz99NS7zaXyFz.0liNcNzzxQLnT7AQ2JyViypIAGJvk2a"], ["session_token", "aXVEqcjxHgpPnoZC42EfoQ"], ["created_at", "2021-09-08 14:43:11.985512"], ["updated_at", "2021-09-08 14:43:11.985512"]]
+  [1m[36mTRANSACTION (2.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (27.9ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."username" = $1 LIMIT $2[0m  [["username", "beep_boop"], ["LIMIT", 1]]
+  [1m[36mUser Exists? (1.3ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "uAR3OhWpAswbWdQZdTUYtQ"], ["LIMIT", 1]]
+  [1m[36mLocation Load (1.0ms)[0m  [1m[34mSELECT "locations".* FROM "locations" WHERE "locations"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Create (21.5ms)[0m  [1m[32mINSERT INTO "users" ("username", "location_id", "age", "fav_language", "password_digest", "session_token", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["username", "beep_boop"], ["location_id", 1], ["age", 3], ["fav_language", "SQL"], ["password_digest", "$2a$12$jli04WDVRN46RcFpQgX.Cub6WmmF7Vs5XQz5Vh1h3A1lTJMAA.4Ge"], ["session_token", "uAR3OhWpAswbWdQZdTUYtQ"], ["created_at", "2021-09-08 14:43:12.947518"], ["updated_at", "2021-09-08 14:43:12.947518"]]
+  [1m[36mTRANSACTION (1.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (8.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (3.6ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."username" = $1 LIMIT $2[0m  [["username", "adventursaurus"], ["LIMIT", 1]]
+  [1m[36mUser Exists? (7.2ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "SqlP2xeNq4FUJ1Rrroi4rg"], ["LIMIT", 1]]
+  [1m[36mLocation Load (0.9ms)[0m  [1m[34mSELECT "locations".* FROM "locations" WHERE "locations"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Create (28.8ms)[0m  [1m[32mINSERT INTO "users" ("username", "location_id", "age", "fav_language", "password_digest", "session_token", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["username", "adventursaurus"], ["location_id", 1], ["age", 4], ["fav_language", "Ruby"], ["password_digest", "$2a$12$x1VTKn7aLr488ZVLsP3ikuetSvoSffI5WqQUAdNqimJGVlv0bOxoO"], ["session_token", "SqlP2xeNq4FUJ1Rrroi4rg"], ["created_at", "2021-09-08 14:43:13.899178"], ["updated_at", "2021-09-08 14:43:13.899178"]]
+  [1m[36mTRANSACTION (34.1ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (19.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Exists? (3.3ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."username" = $1 LIMIT $2[0m  [["username", "instructors_rock"], ["LIMIT", 1]]
+  [1m[36mUser Exists? (0.9ms)[0m  [1m[34mSELECT 1 AS one FROM "users" WHERE "users"."session_token" = $1 LIMIT $2[0m  [["session_token", "VvPGjtdh8uvefkTGklUH5A"], ["LIMIT", 1]]
+  [1m[36mLocation Load (0.5ms)[0m  [1m[34mSELECT "locations".* FROM "locations" WHERE "locations"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mUser Create (1.2ms)[0m  [1m[32mINSERT INTO "users" ("username", "location_id", "age", "fav_language", "password_digest", "session_token", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["username", "instructors_rock"], ["location_id", 1], ["age", 100000], ["fav_language", "English"], ["password_digest", "$2a$12$y1cyyikiaE0gAWirQFJm.eJc2iKbrLx0tMcfBIRJuKddDKhsxTp8y"], ["session_token", "VvPGjtdh8uvefkTGklUH5A"], ["created_at", "2021-09-08 14:43:14.587844"], ["updated_at", "2021-09-08 14:43:14.587844"]]
+  [1m[36mTRANSACTION (26.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (21.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mSip Create (1.3ms)[0m  [1m[32mINSERT INTO "sips" ("body", "author_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["body", "Please use my messaging app, it's way better than Twitter."], ["author_id", 7], ["created_at", "2021-09-08 14:43:14.675264"], ["updated_at", "2021-09-08 14:43:14.675264"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  [1m[36mSip Create (1.1ms)[0m  [1m[32mINSERT INTO "sips" ("body", "author_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["body", "Hello fellow instructors."], ["author_id", 11], ["created_at", "2021-09-08 14:43:14.686917"], ["updated_at", "2021-09-08 14:43:14.686917"]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (25.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  [1m[36mSip Create (0.8ms)[0m  [1m[32mINSERT INTO "sips" ("body", "author_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["body", "Have you seen this sweet instructor merch?"], ["author_id", 11], ["created_at", "2021-09-08 14:43:14.723492"], ["updated_at", "2021-09-08 14:43:14.723492"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mSip Create (0.6ms)[0m  [1m[32mINSERT INTO "sips" ("body", "author_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["body", "Sweeeeeet."], ["author_id", 8], ["created_at", "2021-09-08 14:43:14.732627"], ["updated_at", "2021-09-08 14:43:14.732627"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mSip Create (24.4ms)[0m  [1m[32mINSERT INTO "sips" ("body", "author_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["body", "Kahoots are an opportunity to mess with students."], ["author_id", 5], ["created_at", "2021-09-08 14:43:14.745050"], ["updated_at", "2021-09-08 14:43:14.745050"]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 2], ["LIMIT", 1]]
+  [1m[36mSip Create (0.7ms)[0m  [1m[32mINSERT INTO "sips" ("body", "author_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["body", "Raaaaaiiiils."], ["author_id", 2], ["created_at", "2021-09-08 14:43:14.778117"], ["updated_at", "2021-09-08 14:43:14.778117"]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mSip Create (0.7ms)[0m  [1m[32mINSERT INTO "sips" ("body", "author_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["body", "This is a random quote I found online. -Some person, 2020."], ["author_id", 5], ["created_at", "2021-09-08 14:43:14.790392"], ["updated_at", "2021-09-08 14:43:14.790392"]]
+  [1m[36mTRANSACTION (25.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mSip Create (0.4ms)[0m  [1m[32mINSERT INTO "sips" ("body", "author_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["body", "JavaScript is the best coding language."], ["author_id", 8], ["created_at", "2021-09-08 14:43:14.825965"], ["updated_at", "2021-09-08 14:43:14.825965"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.2ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mSip Create (0.7ms)[0m  [1m[32mINSERT INTO "sips" ("body", "author_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["body", "Programmer: A machine that turns coffee into code."], ["author_id", 7], ["created_at", "2021-09-08 14:43:14.833473"], ["updated_at", "2021-09-08 14:43:14.833473"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  [1m[36mSip Create (24.9ms)[0m  [1m[32mINSERT INTO "sips" ("body", "author_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["body", "You're a wizard, instructor."], ["author_id", 11], ["created_at", "2021-09-08 14:43:14.844927"], ["updated_at", "2021-09-08 14:43:14.844927"]]
+  [1m[36mTRANSACTION (5.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mLike Exists? (25.7ms)[0m  [1m[34mSELECT 1 AS one FROM "likes" WHERE "likes"."liker_id" = $1 AND "likes"."sip_id" = $2 LIMIT $3[0m  [["liker_id", 5], ["sip_id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mSip Load (0.4ms)[0m  [1m[34mSELECT "sips".* FROM "sips" WHERE "sips"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mLike Create (1.4ms)[0m  [1m[32mINSERT INTO "likes" ("liker_id", "sip_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["liker_id", 5], ["sip_id", 1], ["created_at", "2021-09-08 14:43:14.931323"], ["updated_at", "2021-09-08 14:43:14.931323"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mLike Exists? (0.7ms)[0m  [1m[34mSELECT 1 AS one FROM "likes" WHERE "likes"."liker_id" = $1 AND "likes"."sip_id" = $2 LIMIT $3[0m  [["liker_id", 5], ["sip_id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (24.9ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mSip Load (0.5ms)[0m  [1m[34mSELECT "sips".* FROM "sips" WHERE "sips"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mLike Create (0.7ms)[0m  [1m[32mINSERT INTO "likes" ("liker_id", "sip_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["liker_id", 5], ["sip_id", 4], ["created_at", "2021-09-08 14:43:14.974390"], ["updated_at", "2021-09-08 14:43:14.974390"]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mLike Exists? (0.8ms)[0m  [1m[34mSELECT 1 AS one FROM "likes" WHERE "likes"."liker_id" = $1 AND "likes"."sip_id" = $2 LIMIT $3[0m  [["liker_id", 5], ["sip_id", 6], ["LIMIT", 1]]
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mSip Load (0.5ms)[0m  [1m[34mSELECT "sips".* FROM "sips" WHERE "sips"."id" = $1 LIMIT $2[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mLike Create (25.2ms)[0m  [1m[32mINSERT INTO "likes" ("liker_id", "sip_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["liker_id", 5], ["sip_id", 6], ["created_at", "2021-09-08 14:43:14.994354"], ["updated_at", "2021-09-08 14:43:14.994354"]]
+  [1m[36mTRANSACTION (0.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mLike Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "likes" WHERE "likes"."liker_id" = $1 AND "likes"."sip_id" = $2 LIMIT $3[0m  [["liker_id", 5], ["sip_id", 8], ["LIMIT", 1]]
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mSip Load (0.6ms)[0m  [1m[34mSELECT "sips".* FROM "sips" WHERE "sips"."id" = $1 LIMIT $2[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mLike Create (0.7ms)[0m  [1m[32mINSERT INTO "likes" ("liker_id", "sip_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["liker_id", 5], ["sip_id", 8], ["created_at", "2021-09-08 14:43:15.035709"], ["updated_at", "2021-09-08 14:43:15.035709"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (23.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mLike Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "likes" WHERE "likes"."liker_id" = $1 AND "likes"."sip_id" = $2 LIMIT $3[0m  [["liker_id", 5], ["sip_id", 9], ["LIMIT", 1]]
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mSip Load (0.5ms)[0m  [1m[34mSELECT "sips".* FROM "sips" WHERE "sips"."id" = $1 LIMIT $2[0m  [["id", 9], ["LIMIT", 1]]
+  [1m[36mLike Create (1.5ms)[0m  [1m[32mINSERT INTO "likes" ("liker_id", "sip_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["liker_id", 5], ["sip_id", 9], ["created_at", "2021-09-08 14:43:15.079388"], ["updated_at", "2021-09-08 14:43:15.079388"]]
+  [1m[36mTRANSACTION (0.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mLike Exists? (0.9ms)[0m  [1m[34mSELECT 1 AS one FROM "likes" WHERE "likes"."liker_id" = $1 AND "likes"."sip_id" = $2 LIMIT $3[0m  [["liker_id", 7], ["sip_id", 6], ["LIMIT", 1]]
+  [1m[36mUser Load (25.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mSip Load (2.5ms)[0m  [1m[34mSELECT "sips".* FROM "sips" WHERE "sips"."id" = $1 LIMIT $2[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mLike Create (0.7ms)[0m  [1m[32mINSERT INTO "likes" ("liker_id", "sip_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["liker_id", 7], ["sip_id", 6], ["created_at", "2021-09-08 14:43:15.128562"], ["updated_at", "2021-09-08 14:43:15.128562"]]
+  [1m[36mTRANSACTION (0.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mLike Exists? (0.7ms)[0m  [1m[34mSELECT 1 AS one FROM "likes" WHERE "likes"."liker_id" = $1 AND "likes"."sip_id" = $2 LIMIT $3[0m  [["liker_id", 7], ["sip_id", 7], ["LIMIT", 1]]
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mSip Load (22.7ms)[0m  [1m[34mSELECT "sips".* FROM "sips" WHERE "sips"."id" = $1 LIMIT $2[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mLike Create (1.5ms)[0m  [1m[32mINSERT INTO "likes" ("liker_id", "sip_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["liker_id", 7], ["sip_id", 7], ["created_at", "2021-09-08 14:43:15.172651"], ["updated_at", "2021-09-08 14:43:15.172651"]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mLike Exists? (0.9ms)[0m  [1m[34mSELECT 1 AS one FROM "likes" WHERE "likes"."liker_id" = $1 AND "likes"."sip_id" = $2 LIMIT $3[0m  [["liker_id", 7], ["sip_id", 8], ["LIMIT", 1]]
+  [1m[36mUser Load (0.9ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mSip Load (0.5ms)[0m  [1m[34mSELECT "sips".* FROM "sips" WHERE "sips"."id" = $1 LIMIT $2[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mLike Create (21.9ms)[0m  [1m[32mINSERT INTO "likes" ("liker_id", "sip_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["liker_id", 7], ["sip_id", 8], ["created_at", "2021-09-08 14:43:15.197170"], ["updated_at", "2021-09-08 14:43:15.197170"]]
+  [1m[36mTRANSACTION (3.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mLike Exists? (0.8ms)[0m  [1m[34mSELECT 1 AS one FROM "likes" WHERE "likes"."liker_id" = $1 AND "likes"."sip_id" = $2 LIMIT $3[0m  [["liker_id", 7], ["sip_id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mSip Load (0.5ms)[0m  [1m[34mSELECT "sips".* FROM "sips" WHERE "sips"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mLike Create (23.8ms)[0m  [1m[32mINSERT INTO "likes" ("liker_id", "sip_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["liker_id", 7], ["sip_id", 4], ["created_at", "2021-09-08 14:43:15.245254"], ["updated_at", "2021-09-08 14:43:15.245254"]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mLike Exists? (0.9ms)[0m  [1m[34mSELECT 1 AS one FROM "likes" WHERE "likes"."liker_id" = $1 AND "likes"."sip_id" = $2 LIMIT $3[0m  [["liker_id", 6], ["sip_id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mSip Load (0.4ms)[0m  [1m[34mSELECT "sips".* FROM "sips" WHERE "sips"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mLike Create (0.8ms)[0m  [1m[32mINSERT INTO "likes" ("liker_id", "sip_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["liker_id", 6], ["sip_id", 4], ["created_at", "2021-09-08 14:43:15.287131"], ["updated_at", "2021-09-08 14:43:15.287131"]]
+  [1m[36mTRANSACTION (0.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (24.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mLike Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "likes" WHERE "likes"."liker_id" = $1 AND "likes"."sip_id" = $2 LIMIT $3[0m  [["liker_id", 6], ["sip_id", 5], ["LIMIT", 1]]
+  [1m[36mUser Load (0.3ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mSip Load (0.4ms)[0m  [1m[34mSELECT "sips".* FROM "sips" WHERE "sips"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mLike Create (0.6ms)[0m  [1m[32mINSERT INTO "likes" ("liker_id", "sip_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["liker_id", 6], ["sip_id", 5], ["created_at", "2021-09-08 14:43:15.329134"], ["updated_at", "2021-09-08 14:43:15.329134"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mLike Exists? (0.9ms)[0m  [1m[34mSELECT 1 AS one FROM "likes" WHERE "likes"."liker_id" = $1 AND "likes"."sip_id" = $2 LIMIT $3[0m  [["liker_id", 6], ["sip_id", 8], ["LIMIT", 1]]
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mSip Load (24.7ms)[0m  [1m[34mSELECT "sips".* FROM "sips" WHERE "sips"."id" = $1 LIMIT $2[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mLike Create (0.9ms)[0m  [1m[32mINSERT INTO "likes" ("liker_id", "sip_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["liker_id", 6], ["sip_id", 8], ["created_at", "2021-09-08 14:43:15.371525"], ["updated_at", "2021-09-08 14:43:15.371525"]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mLike Exists? (0.5ms)[0m  [1m[34mSELECT 1 AS one FROM "likes" WHERE "likes"."liker_id" = $1 AND "likes"."sip_id" = $2 LIMIT $3[0m  [["liker_id", 8], ["sip_id", 5], ["LIMIT", 1]]
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mSip Load (0.4ms)[0m  [1m[34mSELECT "sips".* FROM "sips" WHERE "sips"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mLike Create (0.7ms)[0m  [1m[32mINSERT INTO "likes" ("liker_id", "sip_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["liker_id", 8], ["sip_id", 5], ["created_at", "2021-09-08 14:43:15.389234"], ["updated_at", "2021-09-08 14:43:15.389234"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (24.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mLike Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "likes" WHERE "likes"."liker_id" = $1 AND "likes"."sip_id" = $2 LIMIT $3[0m  [["liker_id", 8], ["sip_id", 6], ["LIMIT", 1]]
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mSip Load (0.3ms)[0m  [1m[34mSELECT "sips".* FROM "sips" WHERE "sips"."id" = $1 LIMIT $2[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mLike Create (0.5ms)[0m  [1m[32mINSERT INTO "likes" ("liker_id", "sip_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["liker_id", 8], ["sip_id", 6], ["created_at", "2021-09-08 14:43:15.428859"], ["updated_at", "2021-09-08 14:43:15.428859"]]
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mLike Exists? (0.7ms)[0m  [1m[34mSELECT 1 AS one FROM "likes" WHERE "likes"."liker_id" = $1 AND "likes"."sip_id" = $2 LIMIT $3[0m  [["liker_id", 11], ["sip_id", 1], ["LIMIT", 1]]
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  [1m[36mSip Load (0.5ms)[0m  [1m[34mSELECT "sips".* FROM "sips" WHERE "sips"."id" = $1 LIMIT $2[0m  [["id", 1], ["LIMIT", 1]]
+  [1m[36mLike Create (23.7ms)[0m  [1m[32mINSERT INTO "likes" ("liker_id", "sip_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["liker_id", 11], ["sip_id", 1], ["created_at", "2021-09-08 14:43:15.445980"], ["updated_at", "2021-09-08 14:43:15.445980"]]
+  [1m[36mTRANSACTION (2.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mLike Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "likes" WHERE "likes"."liker_id" = $1 AND "likes"."sip_id" = $2 LIMIT $3[0m  [["liker_id", 11], ["sip_id", 4], ["LIMIT", 1]]
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  [1m[36mSip Load (25.7ms)[0m  [1m[34mSELECT "sips".* FROM "sips" WHERE "sips"."id" = $1 LIMIT $2[0m  [["id", 4], ["LIMIT", 1]]
+  [1m[36mLike Create (1.0ms)[0m  [1m[32mINSERT INTO "likes" ("liker_id", "sip_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["liker_id", 11], ["sip_id", 4], ["created_at", "2021-09-08 14:43:15.522816"], ["updated_at", "2021-09-08 14:43:15.522816"]]
+  [1m[36mTRANSACTION (0.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mLike Exists? (0.9ms)[0m  [1m[34mSELECT 1 AS one FROM "likes" WHERE "likes"."liker_id" = $1 AND "likes"."sip_id" = $2 LIMIT $3[0m  [["liker_id", 11], ["sip_id", 5], ["LIMIT", 1]]
+  [1m[36mUser Load (0.8ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  [1m[36mSip Load (0.6ms)[0m  [1m[34mSELECT "sips".* FROM "sips" WHERE "sips"."id" = $1 LIMIT $2[0m  [["id", 5], ["LIMIT", 1]]
+  [1m[36mLike Create (23.1ms)[0m  [1m[32mINSERT INTO "likes" ("liker_id", "sip_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["liker_id", 11], ["sip_id", 5], ["created_at", "2021-09-08 14:43:15.546078"], ["updated_at", "2021-09-08 14:43:15.546078"]]
+  [1m[36mTRANSACTION (0.9ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mLike Exists? (0.8ms)[0m  [1m[34mSELECT 1 AS one FROM "likes" WHERE "likes"."liker_id" = $1 AND "likes"."sip_id" = $2 LIMIT $3[0m  [["liker_id", 11], ["sip_id", 6], ["LIMIT", 1]]
+  [1m[36mUser Load (1.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  [1m[36mSip Load (0.5ms)[0m  [1m[34mSELECT "sips".* FROM "sips" WHERE "sips"."id" = $1 LIMIT $2[0m  [["id", 6], ["LIMIT", 1]]
+  [1m[36mLike Create (0.9ms)[0m  [1m[32mINSERT INTO "likes" ("liker_id", "sip_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["liker_id", 11], ["sip_id", 6], ["created_at", "2021-09-08 14:43:15.592255"], ["updated_at", "2021-09-08 14:43:15.592255"]]
+  [1m[36mTRANSACTION (23.4ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mLike Exists? (0.7ms)[0m  [1m[34mSELECT 1 AS one FROM "likes" WHERE "likes"."liker_id" = $1 AND "likes"."sip_id" = $2 LIMIT $3[0m  [["liker_id", 11], ["sip_id", 7], ["LIMIT", 1]]
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  [1m[36mSip Load (0.5ms)[0m  [1m[34mSELECT "sips".* FROM "sips" WHERE "sips"."id" = $1 LIMIT $2[0m  [["id", 7], ["LIMIT", 1]]
+  [1m[36mLike Create (0.8ms)[0m  [1m[32mINSERT INTO "likes" ("liker_id", "sip_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["liker_id", 11], ["sip_id", 7], ["created_at", "2021-09-08 14:43:15.635818"], ["updated_at", "2021-09-08 14:43:15.635818"]]
+  [1m[36mTRANSACTION (0.8ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (25.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mLike Exists? (0.6ms)[0m  [1m[34mSELECT 1 AS one FROM "likes" WHERE "likes"."liker_id" = $1 AND "likes"."sip_id" = $2 LIMIT $3[0m  [["liker_id", 11], ["sip_id", 8], ["LIMIT", 1]]
+  [1m[36mUser Load (0.5ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  [1m[36mSip Load (0.5ms)[0m  [1m[34mSELECT "sips".* FROM "sips" WHERE "sips"."id" = $1 LIMIT $2[0m  [["id", 8], ["LIMIT", 1]]
+  [1m[36mLike Create (0.8ms)[0m  [1m[32mINSERT INTO "likes" ("liker_id", "sip_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["liker_id", 11], ["sip_id", 8], ["created_at", "2021-09-08 14:43:15.680233"], ["updated_at", "2021-09-08 14:43:15.680233"]]
+  [1m[36mTRANSACTION (0.7ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mLike Exists? (0.8ms)[0m  [1m[34mSELECT 1 AS one FROM "likes" WHERE "likes"."liker_id" = $1 AND "likes"."sip_id" = $2 LIMIT $3[0m  [["liker_id", 11], ["sip_id", 9], ["LIMIT", 1]]
+  [1m[36mUser Load (25.0ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" = $1 LIMIT $2[0m  [["id", 11], ["LIMIT", 1]]
+  [1m[36mSip Load (2.7ms)[0m  [1m[34mSELECT "sips".* FROM "sips" WHERE "sips"."id" = $1 LIMIT $2[0m  [["id", 9], ["LIMIT", 1]]
+  [1m[36mLike Create (1.0ms)[0m  [1m[32mINSERT INTO "likes" ("liker_id", "sip_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "id"[0m  [["liker_id", 11], ["sip_id", 9], ["created_at", "2021-09-08 14:43:15.729304"], ["updated_at", "2021-09-08 14:43:15.729304"]]
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT[0m
+Started GET "/" for ::1 at 2021-09-08 09:43:31 -0500
+  [1m[35m (4.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+Processing by StaticPagesController#root as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering static_pages/root.html.erb within layouts/application
+  Rendered static_pages/root.html.erb within layouts/application (Duration: 28.6ms | Allocations: 289)
+  Rendered layout layouts/application.html.erb (Duration: 913.5ms | Allocations: 50090)
+Completed 200 OK in 999ms (Views: 950.6ms | ActiveRecord: 0.0ms | Allocations: 53512)
+
+
+Started GET "/" for ::1 at 2021-09-08 09:44:32 -0500
+Processing by StaticPagesController#root as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering static_pages/root.html.erb within layouts/application
+  Rendered static_pages/root.html.erb within layouts/application (Duration: 0.1ms | Allocations: 4)
+  Rendered layout layouts/application.html.erb (Duration: 1546.5ms | Allocations: 56115)
+Completed 200 OK in 1549ms (Views: 1548.2ms | ActiveRecord: 0.0ms | Allocations: 56358)
+
+
+Started GET "/api/sips" for ::1 at 2021-09-08 09:44:35 -0500
+Processing by Api::SipsController#index as JSON
+  [1m[35m (186.4ms)[0m  [1m[34mSELECT COUNT("sips"."id") AS count_sips_id, "sips"."id" AS sips_id FROM "sips" INNER JOIN "likes" ON "likes"."sip_id" = "sips"."id" GROUP BY "sips"."id"[0m
+  ↳ app/models/sip.rb:39:in `<class:Sip>'
+  [1m[35m (32.5ms)[0m  [1m[34mSELECT "sips"."body" FROM "sips" INNER JOIN "likes" ON "likes"."sip_id" = "sips"."id" GROUP BY "sips"."id" HAVING (count(*) > 3)[0m
+  ↳ app/models/sip.rb:43:in `<class:Sip>'
+  Rendering api/sips/index.json.jbuilder
+  [1m[36mSip Load (14.2ms)[0m  [1m[34mSELECT "sips".* FROM "sips"[0m
+  ↳ app/views/api/sips/index.json.jbuilder:5
+  [1m[36mUser Load (29.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."id" IN ($1, $2, $3, $4, $5)[0m  [["id", 7], ["id", 11], ["id", 8], ["id", 5], ["id", 2]]
+  ↳ app/views/api/sips/index.json.jbuilder:5
+  Rendered api/sips/index.json.jbuilder (Duration: 322.6ms | Allocations: 14159)
+Completed 200 OK in 693ms (Views: 140.7ms | ActiveRecord: 474.8ms | Allocations: 23080)
+
+
